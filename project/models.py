@@ -96,12 +96,7 @@ class Client(models.Model):
 
 class Status(models.Model):
 
-    choice = (
-        ('En cours', 'en cours'),
-        ('Terminé', 'Terminé'),
-    )
-    
-    team = models.CharField(max_length=20, blank=False, choices=choice, default='En cours') 
+    status = models.CharField(max_length=20, blank=False) 
 
  
 class Event(models.Model):
@@ -126,11 +121,12 @@ class Contract(models.Model):
 
     date_created = models.DateTimeField(default=now, editable=False)
     date_updated = models.DateTimeField(default=now, editable=False)
-    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE)
-    client = ForeignKey(Client, on_delete=models.CASCADE)
-    status = models.BooleanField()
+    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
+    client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
+    status = models.BooleanField(default=True)
     amount = models.FloatField()
     payment_due = models.DateTimeField()
+    
     def update(self, *args, **kwargs):
         kwargs.update({'date_updated': now})
         super().update(*args, **kwargs)

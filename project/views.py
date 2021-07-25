@@ -15,3 +15,25 @@ class ClientViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Client.objects.all()
+
+class ContractViewSet(viewsets.ModelViewSet):
+    serializer_class = ContractSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return Contract.objects.all()
+
+class EventViewSet(viewsets.ModelViewSet):
+    serializer_class = EventSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return Event.objects.all()
+
+
+class StatusViewSet(viewsets.ModelViewSet):
+    serializer_class = StatusSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return Status.objects.all()

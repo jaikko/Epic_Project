@@ -1,5 +1,5 @@
 
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from .models import *
 
 class StaffSerializer(serializers.ModelSerializer):
@@ -7,26 +7,7 @@ class StaffSerializer(serializers.ModelSerializer):
         model = Staff
         fields = ('id', 'first_name', 'last_name', 'email', 'team','phone','mobile')
 
-# class RegisterSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Staff
-#         fields = ('id', 'first_name', 'last_name', 'email', 'team','phone','mobile')
-#         extra_kwargs = {'password': {'write_only': True}}
-        
-#     def create(self, validated_data):
-#         user = Staff.objects.create(
-#             email=validated_data['email'],
-#             first_name=validated_data['first_name'],
-#             last_name=validated_data['last_name'],
-#             team=validated_data['team'],
-#             phone=validated_data['phone'],
-#             mobile=validated_data['mobile'],
-#         )
-#         user.set_password(validated_data['password'])
-#         user.save()
 
-#         return user
-    
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
@@ -45,12 +26,56 @@ class ClientSerializer(serializers.ModelSerializer):
 
         projet.save()
         return projet
-    
+
 class ContractSerializer(serializers.ModelSerializer):
+
+    payment_due = fields.DateField(input_formats=['%d-%m-%YT%H:%M:%S'])
+    
     class Meta:
         model = Contract
-        fields = ('id', 'status', 'amount', 'payement_due', 'sale_contact', 'client')
+        fields = ('id', 'status', 'amount', 'payment_due', 'sale_contact', 'client')
+    
+    def create(self, validated_data):
 
+        contract = Contract.objects.create( payment_due=validated_data['payment_due'],
+                                            amount=validated_data['amount'],
+                                            client_id=self.context.get('view').kwargs.get('client_pk'),
+                                            sale_contact_id=self.context['request'].user.id                            
+        )
+        
+        contract.save()
+        return contract
+    
 
 class EventSerializer(serializers.ModelSerializer):
-    pass
+    
+    class Meta:
+        model = Event
+        fields = ('id', 'atttendees', 'event_date', 'notes', 'support_contact', 'client', 'event_status')
+    
+    def create(self, validated_data):
+
+        event = Event.objects.create( attendees=validated_data['attendees'],
+                                            event_date=validated_data['event_date'],
+                                            notes=validated_data['notes'],
+                                            client_id=self.context.get('view').kwargs.get('client_pk'),
+                                            support_contact_id=self.context['request'].user.id,
+                                            event_status_id = validated_data['event_status']                             
+        )
+        
+        event.save()
+        return event
+
+
+class StatusSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Status
+        fields = ('id', 'status')
+    
+    def create(self, validated_data):
+        
+        status = Status.objects.create(status=validated_data['status'],
+        )
+        status.save()
+        return status

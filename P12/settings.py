@@ -76,6 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'P12.wsgi.application'
 
 REST_FRAMEWORK = {
+    # 'DATE_INPUT_FORMATS': ['iso-8601', '%d-%m-%YT%H:%M:%S.%fZ'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
