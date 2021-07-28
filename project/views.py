@@ -25,7 +25,7 @@ class ContractViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
-    permission_classes = (permissions.IsAuthenticated, IsSupportTeam|IsStaff)
+    permission_classes = (permissions.IsAuthenticated, IsSupportTeam)
 
     def get_queryset(self):
         return Event.objects.all()

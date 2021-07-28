@@ -98,24 +98,6 @@ class Status(models.Model):
 
     status = models.CharField(max_length=20, blank=False) 
 
- 
-class Event(models.Model):
-    
-    date_created = models.DateTimeField(default=now, editable=False)
-    date_updated = models.DateTimeField(default=now, editable=False)
-    support_contact = ForeignKey(Staff, on_delete=models.CASCADE)
-    client = ForeignKey(Client, on_delete=models.CASCADE)
-    event_status = ForeignKey(Status, on_delete=models.CASCADE)
-    attendees = models.IntegerField(null = False)
-    event_date = models.DateTimeField()
-    notes = TextField()
-    
-    def update(self, *args, **kwargs):
-        kwargs.update({'date_updated': now})
-        super().update(*args, **kwargs)
-
-        return self
-
 
 class Contract(models.Model):
 
@@ -127,6 +109,25 @@ class Contract(models.Model):
     amount = models.FloatField()
     payment_due = models.DateTimeField()
     
+    def update(self, *args, **kwargs):
+        kwargs.update({'date_updated': now})
+        super().update(*args, **kwargs)
+
+        return self
+    
+
+class Event(models.Model):
+    
+    date_created = models.DateTimeField(default=now, editable=False)
+    date_updated = models.DateTimeField(default=now, editable=False)
+    support_contact = ForeignKey(Staff, on_delete=models.CASCADE,null=True)
+    client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
+    contract = ForeignKey(Contract, on_delete=models.CASCADE, null=True)
+    event_status = ForeignKey(Status, on_delete=models.CASCADE)
+    attendees = models.IntegerField(null = False)
+    event_date = models.DateTimeField()
+    notes = TextField(blank=True)
+
     def update(self, *args, **kwargs):
         kwargs.update({'date_updated': now})
         super().update(*args, **kwargs)

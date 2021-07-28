@@ -33,6 +33,7 @@ class IsSaleTeam(permissions.BasePermission):
 
 class IsSupportTeam(permissions.BasePermission):
     def has_permission(self, request, view):
+
         if Staff.objects.filter(id=request.user.id, team="Support").exists():
             return True
         return False 
@@ -42,5 +43,5 @@ class IsSupportTeam(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return obj.sale_contact == request.user
+        return obj.support_contact == request.user
 

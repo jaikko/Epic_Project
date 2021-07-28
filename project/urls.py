@@ -12,7 +12,7 @@ router.register(r'clients', ClientViewSet, basename="Client")
 contract_routeur = routers.NestedSimpleRouter(router, r'clients', lookup='client')
 contract_routeur.register(r'contracts', ContractViewSet, basename='client-contracts')
 event_routeur = routers.NestedSimpleRouter(contract_routeur, r'contracts', lookup='contract')
-event_routeur.register(r'events', ContractViewSet, basename='contract-event')
+event_routeur.register(r'events', EventViewSet, basename='contract-events')
 status = routers.DefaultRouter()
 status.register(r'status', StatusViewSet, basename="status")
 
