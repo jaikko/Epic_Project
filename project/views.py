@@ -3,32 +3,69 @@ from .serializers import *
 from rest_framework import viewsets
 from rest_framework import generics, permissions
 from .permissions import *
+from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
+# import django_filters
 
 # Create your views here.
 
+# Filter
 
 
-# Project
+class ContractFilter(filters.FilterSet):
+    min_amount = filters.NumberFilter(field_name="amount", lookup_expr='gte')
+    max_amount = filters.NumberFilter(field_name="amount", lookup_expr='lte')
+    start_date = filters.DateFilter(field_name="payment_due", lookup_expr="gte")
+    end_date = filters.DateFilter(field_name="payment_due", lookup_expr="lte")
+    payment_due = filters.DateFilter(field_name="payment_due", lookup_expr="date")
+
+    class Meta:
+        model = Contract
+        fields = ['status', 'amount', 'min_amount', 'max_amount', 'payment_due', 'start_date', 'end_date']
+
+
+class EventFilter(filters.FilterSet):
+    min_attendees = filters.NumberFilter(field_name="amount", lookup_expr='gte')
+    max_attendees = filters.NumberFilter(field_name="amount", lookup_expr='lte')
+    start_date = filters.DateFilter(field_name="event_date", lookup_expr="gte")
+    end_date = filters.DateFilter(field_name="event_date", lookup_expr="lte")
+    event_date = filters.DateFilter(field_name="event_date", lookup_expr="date")
+
+    class Meta:
+        model = Event
+        fields = ['attendees', 'min_attendees', 'max_attendees', 'event_date', 'start_date', 'end_date']
+
+
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
-    permission_classes = (permissions.IsAuthenticated, IsSaleTeam|IsStaff)
+    permission_classes = (permissions.IsAuthenticated, IsSaleTeam | IsStaff)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['first_name', 'last_name', 'email', 'phone', 'mobile', 'company_name']
 
     def get_queryset(self):
-        return Client.objects.all()
+        return Client.objects.filter(sale_contact_id=self.request.user.id) or Client.objects.all()
+
 
 class ContractViewSet(viewsets.ModelViewSet):
     serializer_class = ContractSerializer
-    permission_classes = (permissions.IsAuthenticated, IsSaleTeam|IsStaff)
+    permission_classes = (permissions.IsAuthenticated, IsSaleTeam | IsStaff)
+    filter_backends = [DjangoFilterBackend]
+    # filterset_fields = ['status', 'amount']
+    filterset_class = ContractFilter
 
     def get_queryset(self):
-        return Contract.objects.all()
+        return Contract.objects.filter(sale_contact_id=self.request.user.id) or Contract.objects.all()
+
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
-    permission_classes = (permissions.IsAuthenticated, IsSupportTeam)
+    permission_classes = (permissions.IsAuthenticated, EventAcces | IsSupportTeam)
+    filter_backends = [DjangoFilterBackend]
+    # filterset_fields = ['attendees', 'event_date']
+    filterset_class = EventFilter
 
     def get_queryset(self):
-        return Event.objects.all()
+        return Event.objects.filter(support_contact_id=self.request.user.id) or Event.objects.all()
 
 
 class StatusViewSet(viewsets.ModelViewSet):

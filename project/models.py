@@ -8,6 +8,7 @@ from django.utils.timezone import now
 
 # Create your models here.
 
+
 class CustomUserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
@@ -41,25 +42,25 @@ class CustomUserManager(BaseUserManager):
 
 
 class Staff(AbstractUser):
-   
+
     choice = (
         ('Sale', 'Sale'),
         ('Support', 'Support'),
         ('Admin', 'Admin')
     )
-    
+
     username = None
     first_name = models.CharField(max_length=25, blank=False)
     last_name = models.CharField(max_length=25, blank=False)
     email = models.EmailField(max_length=100, blank=False, unique=True)
-    phone = models.CharField(max_length=20, blank = True)
-    mobile = models.CharField(max_length=20, blank = True)
-    team = models.CharField(max_length=20, blank=False, choices=choice, default='Admin') 
+    phone = models.CharField(max_length=20, blank=True)
+    mobile = models.CharField(max_length=20, blank=True)
+    team = models.CharField(max_length=20, blank=False, choices=choice, default='Admin')
     date_created = models.DateTimeField(default=now, editable=False)
     date_updated = models.DateTimeField(default=now, editable=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-    
+
     def update(self, *args, **kwargs):
         kwargs.update({'date_updated': now})
         super().update(*args, **kwargs)
@@ -78,12 +79,12 @@ class Client(models.Model):
     last_name = models.CharField(max_length=25, blank=False)
     email = models.EmailField(max_length=100, blank=False, unique=True)
     phone = models.CharField(max_length=20, null=True)
-    mobile = models.CharField(max_length=20, null =True)
+    mobile = models.CharField(max_length=20, null=True)
     company_name = models.CharField(max_length=250, blank=False)
     date_created = models.DateTimeField(default=now, editable=False)
     date_updated = models.DateTimeField(default=now, editable=False)
-    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null =True)
-    
+    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_query_name="client")
+
     def update(self, *args, **kwargs):
         kwargs.update({'date_updated': now})
         super().update(*args, **kwargs)
@@ -96,35 +97,35 @@ class Client(models.Model):
 
 class Status(models.Model):
 
-    status = models.CharField(max_length=20, blank=False) 
+    status = models.CharField(max_length=20, blank=False)
 
 
 class Contract(models.Model):
 
     date_created = models.DateTimeField(default=now, editable=False)
     date_updated = models.DateTimeField(default=now, editable=False)
-    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
+    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_name="contracts")
     client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
     status = models.BooleanField(default=True)
     amount = models.FloatField()
     payment_due = models.DateTimeField()
-    
+
     def update(self, *args, **kwargs):
         kwargs.update({'date_updated': now})
         super().update(*args, **kwargs)
 
         return self
-    
+
 
 class Event(models.Model):
-    
+
     date_created = models.DateTimeField(default=now, editable=False)
     date_updated = models.DateTimeField(default=now, editable=False)
-    support_contact = ForeignKey(Staff, on_delete=models.CASCADE,null=True)
+    support_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
     client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
     contract = ForeignKey(Contract, on_delete=models.CASCADE, null=True)
     event_status = ForeignKey(Status, on_delete=models.CASCADE)
-    attendees = models.IntegerField(null = False)
+    attendees = models.IntegerField(null=False)
     event_date = models.DateTimeField()
     notes = TextField(blank=True)
 
