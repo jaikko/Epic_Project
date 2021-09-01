@@ -46,7 +46,8 @@ class Staff(AbstractUser):
     choice = (
         ('Sale', 'Sale'),
         ('Support', 'Support'),
-        ('Admin', 'Admin')
+        ('Admin', 'Admin'),
+        ('Management', 'Management')
     )
 
     username = None
@@ -106,7 +107,7 @@ class Contract(models.Model):
     date_updated = models.DateTimeField(default=now, editable=False)
     sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_name="contracts")
     client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=False)
     amount = models.FloatField()
     payment_due = models.DateTimeField()
 
@@ -129,8 +130,3 @@ class Event(models.Model):
     event_date = models.DateTimeField()
     notes = TextField(blank=True)
 
-    def update(self, *args, **kwargs):
-        kwargs.update({'date_updated': now})
-        super().update(*args, **kwargs)
-
-        return self

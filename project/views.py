@@ -5,7 +5,6 @@ from rest_framework import generics, permissions
 from .permissions import *
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
-# import django_filters
 
 # Create your views here.
 
@@ -50,7 +49,6 @@ class ContractViewSet(viewsets.ModelViewSet):
     serializer_class = ContractSerializer
     permission_classes = (permissions.IsAuthenticated, IsSaleTeam | IsStaff)
     filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['status', 'amount']
     filterset_class = ContractFilter
 
     def get_queryset(self):
@@ -61,7 +59,6 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     permission_classes = (permissions.IsAuthenticated, EventAcces | IsSupportTeam)
     filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['attendees', 'event_date']
     filterset_class = EventFilter
 
     def get_queryset(self):
