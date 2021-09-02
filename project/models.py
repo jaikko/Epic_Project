@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db.models.fields import TextField
-from django.db.models.fields.related import ForeignKey
+from django.db.models.fields.related import ForeignKey, OneToOneField
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
@@ -84,7 +84,7 @@ class Client(models.Model):
     company_name = models.CharField(max_length=250, blank=False)
     date_created = models.DateTimeField(default=now, editable=False)
     date_updated = models.DateTimeField(default=now, editable=False)
-    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_query_name="client")
+    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
 
     def update(self, *args, **kwargs):
         kwargs.update({'date_updated': now})
@@ -105,7 +105,7 @@ class Contract(models.Model):
 
     date_created = models.DateTimeField(default=now, editable=False)
     date_updated = models.DateTimeField(default=now, editable=False)
-    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_name="contracts")
+    sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
     client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
     status = models.BooleanField(default=False)
     amount = models.FloatField()
@@ -129,4 +129,3 @@ class Event(models.Model):
     attendees = models.IntegerField(null=False)
     event_date = models.DateTimeField()
     notes = TextField(blank=True)
-

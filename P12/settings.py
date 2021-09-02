@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import environ
+
+# Initialise environment variables
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x!9g4_hjf7f*t$!v%q9d-x-x%c!9zr#8vl!+1^x7mfj@z6pk0+'
+SECRET_KEY = env('DATABASE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,7 +48,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework',
     'django_filters'
-    
 ]
 
 AUTH_USER_MODEL = 'project.Staff'
@@ -85,7 +90,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         ['django_filters.rest_framework.DjangoFilterBackend']
     )
-    
+
 }
 
 
@@ -95,16 +100,16 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        
-        'NAME': 'P12',
 
-        'USER': 'postgres',
+        'NAME': env('DATABASE_NAME'),
 
-        'PASSWORD': 'password',
+        'USER': env('DATABASE_USER'),
 
-        'HOST': 'localhost',
+        'PASSWORD': env('DATABASE_PASS'),
 
-        'PORT': '5432',
+        'HOST': env('DATABASE_HOST'),
+
+        'PORT': env('DATABASE_PORT'),
     }
 }
 

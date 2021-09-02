@@ -51,7 +51,7 @@ class ContractSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
 
     event_date = fields.DateTimeField(input_formats=['%d-%m-%YT%H:%M'])
-    
+
     class Meta:
         model = Event
         fields = ('id', 'attendees', 'event_date', 'notes', 'support_contact', 'client', 'event_status', 'contract')
@@ -60,11 +60,11 @@ class EventSerializer(serializers.ModelSerializer):
         id = self.context.get('view').kwargs.get('contract_pk')
         record = Event.objects.filter(contract_id=id).first() 
 
-        if record:
-            raise serializers.ValidationError({"detail": "A event already existed for this contract"})
-        
         if not record.contract.status:
             raise serializers.ValidationError({"detail": "The contract must be signed"})
+
+        if record:
+            raise serializers.ValidationError({"detail": "A event already existed for this contract"})
 
         event = Event.objects.create(attendees=validated_data['attendees'],
                                      event_date=validated_data['event_date'],
@@ -73,6 +73,7 @@ class EventSerializer(serializers.ModelSerializer):
                                      support_contact_id=None,
                                      event_status_id=validated_data['event_status'].id,
                                      contract_id=self.context.get('view').kwargs.get('contract_pk'))
+                                    # contract_id=validated_data['contract'])
         event.save()
         return event
 
