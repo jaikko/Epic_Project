@@ -42,7 +42,7 @@ class ClientViewSet(viewsets.ModelViewSet):
     filterset_fields = ['first_name', 'last_name', 'email', 'phone', 'mobile', 'company_name']
 
     def get_queryset(self):
-        return Client.objects.filter(sale_contact_id=self.request.user.id) or Client.objects.all()
+        return Client.objects.all()
 
 
 class ContractViewSet(viewsets.ModelViewSet):
@@ -52,7 +52,7 @@ class ContractViewSet(viewsets.ModelViewSet):
     filterset_class = ContractFilter
 
     def get_queryset(self):
-        return Contract.objects.filter(sale_contact_id=self.request.user.id) or Contract.objects.all()
+        return Contract.objects.all()
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -62,7 +62,7 @@ class EventViewSet(viewsets.ModelViewSet):
     filterset_class = EventFilter
 
     def get_queryset(self):
-        return Event.objects.filter(support_contact_id=self.request.user.id) or Event.objects.all()
+        return Event.objects.all()
 
 
 class StatusViewSet(viewsets.ModelViewSet):
