@@ -21,12 +21,12 @@ Il est nécessaire d'avoir Python 3.7, un IDE au choix(Viusal Studio Code par ex
 1. Avec un IDE, ouvrir le projet
 2. Dans le dossier P12, créer un fichier .env
 3. Compléter ce fichier en respectant le format ci-dessous:
-  DATABASE_SECRET_KEY=
-  DATABASE_NAME=
-  DATABASE_USER=
-  DATABASE_PASS=
-  DATABASE_HOST=
-  DATABASE_PORT=
+DATABASE_SECRET_KEY=
+DATABASE_NAME=
+DATABASE_USER=
+DATABASE_PASS=
+DATABASE_HOST=
+DATABASE_PORT=
  
 Pour plus d'information, consulter ce lien : https://alicecampkin.medium.com/how-to-set-up-environment-variables-in-django-f3c4db78c55f
 Pour générer un clé secrète, aller ici : https://djecrety.ir/
