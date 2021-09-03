@@ -20,7 +20,7 @@ Il est nécessaire d'avoir Python 3.7, un IDE au choix(Viusal Studio Code par ex
 **Configuration de la base de données**
 1. Avec un IDE, ouvrir le projet
 2. Dans le dossier P12, créer un fichier .env
-3. Compléter ce fichier en respectant le format ci-dessous:
+3. Compléter ce fichier en respectant le format ci-dessous:  
  DATABASE_SECRET_KEY=  
  DATABASE_NAME=  
  DATABASE_USER=  
