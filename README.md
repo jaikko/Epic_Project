@@ -43,4 +43,4 @@ Dans la racine du projet, exécuter ``` python manage.py makemigrations ``` puis
 **Lancement du server**
 
 1. Dans la racine du projet, lancez le serveur avec la commande ```python manage.py runserver```
-2.
+
