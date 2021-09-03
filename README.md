@@ -45,5 +45,5 @@ Dans la racine du projet, exécuter ``` python manage.py makemigrations ``` puis
 1. Dans la racine du projet, lancez le serveur avec la commande ```python manage.py runserver```
 
 Pour accéder à site d'administration admin : http://127.0.0.1:8000/admin  
-Pour connaître toutes les requêtes possibles: consulter https://documenter.getpostman.com/view/15210728/U16ev8Xz
+Pour connaître tous les points de terminaisons, consulter https://documenter.getpostman.com/view/15210728/U16ev8Xz
 
