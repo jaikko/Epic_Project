@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django_filters.filters import DateFromToRangeFilter, RangeFilter
 from .serializers import *
 from rest_framework import viewsets
 from rest_framework import generics, permissions
@@ -12,27 +13,21 @@ from django_filters import rest_framework as filters
 
 
 class ContractFilter(filters.FilterSet):
-    min_amount = filters.NumberFilter(field_name="amount", lookup_expr='gte')
-    max_amount = filters.NumberFilter(field_name="amount", lookup_expr='lte')
-    start_date = filters.DateFilter(field_name="payment_due", lookup_expr="gte")
-    end_date = filters.DateFilter(field_name="payment_due", lookup_expr="lte")
-    payment_due = filters.DateFilter(field_name="payment_due", lookup_expr="date")
+    amount = RangeFilter()
+    payment_due = DateFromToRangeFilter()
 
     class Meta:
         model = Contract
-        fields = ['status', 'amount', 'min_amount', 'max_amount', 'payment_due', 'start_date', 'end_date']
+        fields = ['status', 'amount', 'payment_due']
 
 
 class EventFilter(filters.FilterSet):
-    min_attendees = filters.NumberFilter(field_name="amount", lookup_expr='gte')
-    max_attendees = filters.NumberFilter(field_name="amount", lookup_expr='lte')
-    start_date = filters.DateFilter(field_name="event_date", lookup_expr="gte")
-    end_date = filters.DateFilter(field_name="event_date", lookup_expr="lte")
-    event_date = filters.DateFilter(field_name="event_date", lookup_expr="date")
+    attendees = RangeFilter()
+    event_date = DateFromToRangeFilter()
 
     class Meta:
         model = Event
-        fields = ['attendees', 'min_attendees', 'max_attendees', 'event_date', 'start_date', 'end_date']
+        fields = ['attendees', 'event_date']
 
 
 class ClientViewSet(viewsets.ModelViewSet):
