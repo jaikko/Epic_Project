@@ -28,7 +28,7 @@ Il est nécessaire d'avoir Python 3.7, un IDE au choix(Viusal Studio Code par ex
  DATABASE_HOST=  
  DATABASE_PORT=
  
-Pour plus d'information, consulter ce lien : https://alicecampkin.medium.com/how-to-set-up-environment-variables-in-django-f3c4db78c55f
+Pour plus d'information, consulter ce lien : https://alicecampkin.medium.com/how-to-set-up-environment-variables-in-django-f3c4db78c55f  
 Pour générer un clé secrète, aller ici : https://djecrety.ir/
  
 **Migration base de données**
