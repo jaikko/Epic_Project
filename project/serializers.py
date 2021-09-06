@@ -58,9 +58,9 @@ class EventSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         id = self.context.get('view').kwargs.get('contract_pk')
-        record = Event.objects.filter(contract_id=id).first() 
-
-        if not record.contract.status:
+        record = Event.objects.filter(contract_id=id).first()
+        signed = Contract.objects.get(pk=id)
+        if not signed.status:
             raise serializers.ValidationError({"detail": "The contract must be signed"})
 
         if record:
@@ -73,7 +73,7 @@ class EventSerializer(serializers.ModelSerializer):
                                      support_contact_id=None,
                                      event_status_id=validated_data['event_status'].id,
                                      contract_id=self.context.get('view').kwargs.get('contract_pk'))
-                                    # contract_id=validated_data['contract'])
+
         event.save()
         return event
 
