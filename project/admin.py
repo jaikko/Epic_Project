@@ -38,12 +38,14 @@ class StatusAdmin(admin.ModelAdmin):
 
 class EventAdmin(admin.ModelAdmin):
     model = Event
+    search_fields = ('client__email', 'support_contact__email',)
     list_display = ('client', 'attendees', 'event_date',)
     ordering = ('client', 'attendees', 'event_date',)
 
 
 class ContractAdmin(admin.ModelAdmin):
     model = Contract
+    search_fields = ('client__email', 'sale_contact__email',)
     list_display = ('client', 'status', 'amount', 'payment_due',)
     ordering = ('client', 'status', 'amount', 'payment_due',)
 
