@@ -45,5 +45,17 @@ Dans la racine du projet, exécuter ``` python manage.py makemigrations ``` puis
 1. Dans la racine du projet, lancez le serveur avec la commande ```python manage.py runserver```
 
 Pour accéder à site d'administration admin : http://127.0.0.1:8000/admin  
-Pour connaître tous les points de terminaisons, consulter https://documenter.getpostman.com/view/15210728/U16ev8Xz
+Pour connaître tous les points de terminaisons, consulter: https://documenter.getpostman.com/view/15210728/U16ev8Xz
+
+**Rechercher et filtrer les informations**
+
+Vous pouvez appliquer des filtres sur les terminaisons suivantes:
+
+- */clients/?param: first_name(string), last_name(string), email(string), phone(string), mobile(string), company_name(string)
+- */contracts/?param: status(boolean), amount_min(float) , amount_max(float) , payment_due_before(date), payment_due_after(date), 'client'(email), 'sale_contact'(email)
+- */events/?param: attendees_min(int) , attendees_max(int), event_date_before(date), event_date_after(date), client(email), event_status(string), support_contact(email)
+- */status/?param: status(string)
+
+On peut utiliser plusieurs paramètres: */clients/?param&param
+ 
 
