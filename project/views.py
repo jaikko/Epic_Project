@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django_filters.filters import DateFromToRangeFilter, RangeFilter
+from django_filters.filters import CharFilter, DateFromToRangeFilter, RangeFilter
 from .serializers import *
 from rest_framework import viewsets
 from rest_framework import generics, permissions
@@ -15,19 +15,24 @@ from django_filters import rest_framework as filters
 class ContractFilter(filters.FilterSet):
     amount = RangeFilter()
     payment_due = DateFromToRangeFilter()
+    client = CharFilter(field_name='client__email', lookup_expr='exact')
+    sale_contact = CharFilter(field_name='sale_contact__email', lookup_expr='exact')
 
     class Meta:
         model = Contract
-        fields = ['status', 'amount', 'payment_due']
+        fields = ['status', 'amount', 'payment_due', 'client', 'sale_contact']
 
 
 class EventFilter(filters.FilterSet):
     attendees = RangeFilter()
     event_date = DateFromToRangeFilter()
+    client = CharFilter(field_name='client__email', lookup_expr='exact')
+    support_contact = CharFilter(field_name='support_contact__email', lookup_expr='exact')
+    event_status = CharFilter(field_name='event_status__status', lookup_expr='exact')
 
     class Meta:
         model = Event
-        fields = ['attendees', 'event_date']
+        fields = ['attendees', 'event_date', 'client', 'event_status', 'support_contact']
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -63,6 +68,8 @@ class EventViewSet(viewsets.ModelViewSet):
 class StatusViewSet(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status']
 
     def get_queryset(self):
         return Status.objects.all()
