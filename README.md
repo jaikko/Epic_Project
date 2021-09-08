@@ -56,6 +56,7 @@ Vous pouvez appliquer des filtres sur les terminaisons suivantes:
 - */events/?param="": attendees_min(int) , attendees_max(int), attendees_exact(int), event_date_before(date), event_date_after(date), event_date_exact(date), client(email), event_status(string), support_contact(email)
 - */status/?param="": status(string)
 
-On peut utiliser plusieurs paramètres: */clients/?param=""&param=""  Pour filter sur les dates, il faut utiliser le format suivant: Y-m-d
+On peut utiliser plusieurs paramètres: */clients/?param=""&param=""  
+Pour filter sur les dates, il faut utiliser le format suivant: Y-m-d
  
 
