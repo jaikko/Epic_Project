@@ -38,7 +38,7 @@ class ContractSerializer(serializers.ModelSerializer):
         fields = ('id', 'status', 'amount', 'payment_due', 'sale_contact', 'client')
 
     def create(self, validated_data):
-        charged_client = Client.objects.filter(id=self.context['request'].user.id, sale_contact=self.context.get('view').kwargs.get('client_pk'))
+        charged_client = Client.objects.filter(sale_contact=self.context['request'].user.id, id=self.context.get('view').kwargs.get('client_pk'))
         if charged_client:
             contract = Contract.objects.create(payment_due=validated_data['payment_due'],
                                                amount=validated_data['amount'],
