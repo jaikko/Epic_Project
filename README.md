@@ -51,11 +51,12 @@ Pour connaître tous les points de terminaisons, consulter: https://documenter.g
 
 Vous pouvez appliquer des filtres sur les terminaisons suivantes:
 
-- */clients/?param: first_name(string), last_name(string), email(string), phone(string), mobile(string), company_name(string)
-- */contracts/?param: status(boolean), amount_min(float) , amount_max(float) , amount_exact(float), payment_due_before(date), payment_due_after(date), payment_due_exact(date), client(email), sale_contact(email)
-- */events/?param: attendees_min(int) , attendees_max(int), attendees_exact(int), event_date_before(date), event_date_after(date), event_date_exact(date), client(email), event_status(string), support_contact(email)
-- */status/?param: status(string)
+- */clients/?param="": first_name(string), last_name(string), email(string), phone(string), mobile(string), company_name(string)
+- */contracts/?param="": status(boolean), amount_min(float) , amount_max(float) , amount_exact(float), payment_due_before(date), payment_due_after(date), payment_due_exact(date), client(email), sale_contact(email)
+- */events/?param="": attendees_min(int) , attendees_max(int), attendees_exact(int), event_date_before(date), event_date_after(date), event_date_exact(date), client(email), event_status(string), support_contact(email)
+- */status/?param="": status(string)
 
-On peut utiliser plusieurs paramètres: */clients/?param&param
+On peut utiliser plusieurs paramètres: */clients/?param=""&param=""
+Pour filter sur les dates, il faut utiliser le format suivant: Y-m-d
  
 
