@@ -58,7 +58,7 @@ class Staff(AbstractUser):
     mobile = models.CharField(max_length=20, blank=True)
     team = models.CharField(max_length=20, blank=False, choices=choice, default='Admin')
     date_created = models.DateTimeField(default=now, editable=False)
-    date_updated = models.DateTimeField(default=now, editable=False)
+    date_updated = models.DateTimeField(auto_now=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -83,7 +83,7 @@ class Client(models.Model):
     mobile = models.CharField(max_length=20, null=True)
     company_name = models.CharField(max_length=250, blank=False)
     date_created = models.DateTimeField(default=now, editable=False)
-    date_updated = models.DateTimeField(default=now, editable=False)
+    date_updated = models.DateTimeField(auto_now=True)
     sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
 
     def update(self, *args, **kwargs):
@@ -104,7 +104,7 @@ class Status(models.Model):
 class Contract(models.Model):
 
     date_created = models.DateTimeField(default=now, editable=False)
-    date_updated = models.DateTimeField(default=now, editable=False)
+    date_updated = models.DateTimeField(auto_now=True)
     sale_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
     client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
     status = models.BooleanField(default=False)
@@ -121,7 +121,7 @@ class Contract(models.Model):
 class Event(models.Model):
 
     date_created = models.DateTimeField(default=now, editable=False)
-    date_updated = models.DateTimeField(default=now, editable=False)
+    date_updated = models.DateTimeField(auto_now=True)
     support_contact = ForeignKey(Staff, on_delete=models.CASCADE, null=True)
     client = ForeignKey(Client, on_delete=models.CASCADE, null=True)
     contract = ForeignKey(Contract, on_delete=models.CASCADE, null=True)
